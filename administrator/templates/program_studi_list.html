@@ -1,0 +1,102 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="form-check-inline">
+                                <a href="{% url 'create_program_studi' %}" class="btn btn-info" ><i class="fa fa-plus-square"></i> Tambah</a>
+                            </div>
+                            <form action="{% url 'program_studi_list' %}" method="GET">
+                                <div class="input-group input-group-sm col-lg-12">
+                                    <input type="text" name="q" value="{{ request.GET.q }}" class="form-control float-right" placeholder="Cari Nama Program Studi">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="list_programedit">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap table-sm text-xsmall" style="font-size: 12px;">
+                        <thead class="bg bg-success">
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>Kode Program Studi</th>
+                                <th>Nama Program Studi</th>
+                                <th>Fakultas</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ps in program_studi %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ ps.kode_program_studi }}</td>
+                                    <td>{{ ps.nama_program_studi }}</td>
+                                    <td>{{ ps.fakultas.nama_fakultas }}</td>
+                                    <td>
+                                        <a  class="btn btn-xs btn-info" href="{% url 'update_program_studi' pk=ps.pk %}"><i class="nav-icon fas fa-edit"></i></a>
+                                        <a  class="btn btn-xs btn-danger" href="{% url 'delete_program_studi' pk=ps.pk %}" ><i class="nav-icon fas fa-trash"></i></a>
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    
+                </div>
+                <div class="card-body" style="text-align: center;">
+                    <ul class="pagination">
+                        {% if program_studi.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ program_studi.previous_page_number }}">Sebelumnya</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Sebelumnya</span>
+                            </li>
+                        {% endif %}
+                        {% for i in program_studi.paginator.page_range %}
+                            {% if program_studi.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ i }}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if program_studi.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ program_studi.next_page_number }}">Selanjutnya</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Selanjutnya</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

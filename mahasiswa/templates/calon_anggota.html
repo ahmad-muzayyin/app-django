@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h4>Daftar Calon Anggota BEM</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+           
+                {% if calon_exist %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Peringatan!</strong> Anda sudah mendaftar sebagai calon anggota. Silakan tunggu proses verifikasi.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                {% else %}
+                <div class="card">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label for="nama" class="col-sm-2 col-form-label">Nama Mahasiswa</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" class="form-control" id="mahasiswa" name="mahasiswa" value="{{ mhs.id }}">
+                                    <input type="text" class="form-control"  value="{{ mhs.nama }}" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="tanggal_daftar" class="col-sm-2 col-form-label">Tanggal Daftar</label>
+                                <div class="col-sm-10">
+                                    <input type="date" class="form-control" id="tanggal_daftar" name="tanggal_daftar">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="ipk" class="col-sm-2 col-form-label">IPK</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="ipk" name="ipk">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="jumlah_ekstrakurikuler" class="col-sm-2 col-form-label">Jumlah Ekstrakurikuler</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" id="jumlah_ekstrakurikuler" name="jumlah_ekstrakurikuler" min="0" max="10" placeholder="Masukkan jumlah ekstrakurikuler 0-10">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label for="lama_ekstrakurikuler" class="col-sm-2 col-form-label">Lama Ekstrakurikuler</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="lama_ekstrakurikuler" name="lama_ekstrakurikuler" min="0" max="10" placeholder="Masukkan berapa lama mengikuti ekstrakurikuler 0-10">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="keaktifan_kegiatan" class="col-sm-2 col-form-label">Keaktifan Kegiatan</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" id="keaktifan_kegiatan" name="keaktifan_kegiatan">
+                                        <option value="5">Sangat Baik</option>
+                                        <option value="4">Baik</option>
+                                        <option value="3">Cukup Baik</option>
+                                        <option value="2">Kurang Baik</option>
+                                        <option value="1">Sangat Kurang Baik</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label for="pengalaman_kepemimpinan" class="col-sm-2 col-form-label">Pengalaman Keorganisasisan</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="pengalaman_kepemimpinan" name="pengalaman_kepemimpinan" min="0" max="10" placeholder="Pengalaman Keorganisasian 0-10">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="prestasi_penghargaan" class="col-sm-2 col-form-label">Sertifikat Penghargaan</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="prestasi_penghargaan" name="prestasi_penghargaan" min="0" max="10" placeholder="Prestasi atau sertifikat Penghargaan 0-10">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="bukti_ipk" class="col-sm-2 col-form-label">Bukti IPK</label>
+                                <div class="col-sm-10">
+                                    <input type="file" class="form-control-file" id="bukti_ipk" name="bukti_ipk">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="bukti_ekstrakurikuler" class="col-sm-2 col-form-label">Bukti Ekstrakurikuler</label>
+                                <div class="col-sm-10">
+                                    <input type="file" class="form-control-file" id="bukti_ekstrakurikuler" name="bukti_ekstrakurikuler">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="bukti_kegiatan_kampus" class="col-sm-2 col-form-label">Bukti Kegiatan Kampus</label>
+                                <div class="col-sm-10">
+                                    <input type="file" class="form-control-file" id="bukti_kegiatan_kampus" name="bukti_kegiatan_kampus">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="bukti_kepemimpinan" class="col-sm-2 col-form-label">Bukti Keorganisasian</label>
+                                <div class="col-sm-10">
+                                    <input type="file" class="form-control-file" id="bukti_kepemimpinan" name="bukti_kepemimpinan">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="bukti_prestasi_penghargaan" class="col-sm-2 col-form-label">Bukti Prestasi dan Penghargaan</label>
+                                <div class="col-sm-10">
+                                    <input type="file" class="form-control-file" id="bukti_prestasi_penghargaan" name="bukti_prestasi_penghargaan">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-info">Daftar</button>
+                            <a href="{% url 'daftar_calon' %}" class="btn btn-secondary float-right">Batal</a>
+                        </div>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

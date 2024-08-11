@@ -1,0 +1,116 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="form-check-inline">
+                                <a href="{% url 'mahasiswa_create' %}" class="btn btn-info"><i class="fa fa-plus-square"></i> Tambah</a>
+                                {% comment %} <a href="{% url 'mahasiswa_format' %}" class="btn btn-info"><i class="fa fa-plus-square"></i> Download Format xls</a>
+                                <a href="{% url 'import_mahasiswa' %}" class="btn btn-info"><i class="fa fa-plus-square"></i> Download Format xls</a> {% endcomment %}
+                            </div>
+                            <form action="{% url 'mahasiswa_list' %}" method="GET">
+                                <div class="input-group input-group-sm col-lg-12">
+                                    <input type="text" name="q" value="{{ request.GET.q }}" class="form-control float-right" placeholder="Cari Nama Mahasiswa">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="list_mahasiswa">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap table-sm text-xsmall" style="font-size: 12px;">
+                        <thead class="bg bg-success">
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>NIM</th>
+                                <th>Nama</th>
+                                <th>Program Studi</th>
+                                <th>Semester</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Tanggal Lahir</th>
+                                <th>Alamat</th>
+                                <th>Telepon</th>
+                                <th>Email</th>
+                                <th>Status Akademik</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for mahasiswa in mahasiswa_list %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ mahasiswa.nim }}</td>
+                                    <td>{{ mahasiswa.nama }}</td>
+                                    <td>{{ mahasiswa.program_studi }}</td>
+                                    <td>{{ mahasiswa.semester }}</td>
+                                    <td>{{ mahasiswa.jenis_kelamin }}</td>
+                                    <td>{{ mahasiswa.tanggal_lahir }}</td>
+                                    <td>{{ mahasiswa.alamat }}</td>
+                                    <td>{{ mahasiswa.telepon }}</td>
+                                    <td>{{ mahasiswa.email }}</td>
+                                    <td>{{ mahasiswa.status_akademik }}</td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info" href="{% url 'mahasiswa_update' pk=mahasiswa.pk %}"><i class="nav-icon fas fa-edit"></i></a>
+                                        <a class="btn btn-xs btn-danger" href="{% url 'mahasiswa_delete' pk=mahasiswa.pk %}"><i class="nav-icon fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-body" style="text-align: center;">
+                    <ul class="pagination">
+                        {% if mahasiswa_list.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ mahasiswa_list.previous_page_number }}">Sebelumnya</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Sebelumnya</span>
+                            </li>
+                        {% endif %}
+                        {% for i in mahasiswa_list.paginator.page_range %}
+                            {% if mahasiswa_list.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ i }}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if mahasiswa_list.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ mahasiswa_list.next_page_number }}">Selanjutnya</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Selanjutnya</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

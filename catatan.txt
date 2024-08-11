@@ -1,0 +1,2 @@
+ DJANGO_SUPERUSER_PASSWORD=admin123 python manage.py createsuperuser --username admin --email admin@example.com --noinput
+pip freeze > requirements.txt

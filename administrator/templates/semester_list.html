@@ -1,0 +1,98 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="form-check-inline">
+                                <a href="{% url 'add_semester' %}" class="btn btn-info"><i class="fa fa-plus-square"></i> Tambah</a>
+                            </div>
+                            <form action="{% url 'semester_list' %}" method="GET">
+                                <div class="input-group input-group-sm col-lg-12">
+                                    <input type="text" name="q" value="{{ request.GET.q }}" class="form-control float-right" placeholder="Cari Nama Semester">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="list_programedit">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap table-sm text-xsmall" style="font-size: 12px;">
+                        <thead class="bg bg-success">
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>Kode Semester</th>
+                                <th>Nama Semester</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for semester in semesters %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ semester.kode_semester }}</td>
+                                    <td>{{ semester.nama_semester }}</td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info" href="{% url 'edit_semester' pk=semester.pk %}"><i class="nav-icon fas fa-edit"></i></a>
+                                        <a class="btn btn-xs btn-danger" href="{% url 'delete_semester' pk=semester.pk %}"><i class="nav-icon fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <div class="card-body" style="text-align: center;">
+                    <ul class="pagination">
+                        {% if semesters.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ semesters.previous_page_number }}">Sebelumnya</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Sebelumnya</span>
+                            </li>
+                        {% endif %}
+                        {% for i in semesters.paginator.page_range %}
+                            {% if semesters.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ i }}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if semesters.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ semesters.next_page_number }}">Selanjutnya</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Selanjutnya</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

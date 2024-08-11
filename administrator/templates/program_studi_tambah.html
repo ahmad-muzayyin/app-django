@@ -1,0 +1,45 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="card" style="margin-bottom: 6px;">
+            <div class="body" style="padding: 15px 25px; margin-bottom: -10px;">
+                <div class="row clearfix">
+                    <div class="col-md-4">
+                        <div class="form-line" style="margin-bottom: 8px;">
+                            <input type="text" class="form-control form-control-sm" placeholder="Kode Program Studi" id="kode_program_studi" name="kode_program_studi" required />
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-line" style="margin-bottom: 8px;">
+                            <input type="text" class="form-control form-control-sm" placeholder="Nama Program Studi" id="nama_program_studi" name="nama_program_studi" required />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-line" style="margin-bottom: 8px;">
+                            <select class="form-control form-control-sm" id="fakultas" name="fakultas" required>
+                                <option value="" disabled selected>Pilih Fakultas</option>
+                                {% for fakultas in form.fields.fakultas.queryset %}
+                                    <option value="{{ fakultas.id }}">{{ fakultas.nama_fakultas }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="body" style="padding: 15px 25px; margin-bottom: -10px;" id="data_program_studi_footer">
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                        Aksi :
+                        <div class="form-line" style="margin-bottom: 7px;">
+                            <button type="submit" class="btn btn-info waves-effect btn-sm" name="submit">Simpan</button>
+                            <button type="button" class="btn btn-default float-right" onclick="cancel_program_studi()">Batal</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock content %}

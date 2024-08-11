@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h4>Kelulusan Wawancara</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap table-sm text-xsmall" style="font-size: 12px;">
+                        <thead class="bg bg-success">
+                        <tr>
+                            <th>#</th>
+                            <th>NIM</th>
+                            <th>Nama</th>
+                            <th>Nilai Wawancara</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            {% for hasil in hasil_wawancara %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ hasil.mahasiswa.nim }}</td>
+                <td>{{ hasil.mahasiswa.nama }}</td>
+                <td>{{ hasil.nilai_wawancara }}</td>
+                <td>{{ hasil.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Pemilihan Anggota BEM</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/fonts/font-awesome/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/ionicons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/dist/css/AdminLTE.min.css' %}">
+    <script src="{% static 'assets/dist/js/jquery-3.1.0.min.js' %}"></script>
+    <script src="{% static 'assets/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>
+    <style type="text/css">
+        .panel-footer {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .small-box {
+            margin-bottom: 0;
+            border: none;
+        }
+
+        #h1 {
+            font-family: Calibri;
+            padding: 0;
+            margin: 15px 0 0;
+            font-size: 18px;
+        }
+
+        #h2 {
+            font-family: Calibri;
+            padding: 0;
+            margin: 0 0 15px;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        /* Mengubah warna latar belakang panel login menjadi merah */
+        .panel-success .small-box.bg-primary {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body class="hold-transition login-page" style="height: auto;">
+    <div class="login-box ">
+        <div class="panel panel-success">
+            <!-- small box -->
+            <div class="small-box bg-primary">
+                <div class="inner">
+                    <h4 id="h1">Login <b>Mahasiswa</b></h4>
+                    <h6 id="h6">Aplikasi Pemilihan Anggota</h6>
+                </div>
+                <div class="icon">
+                    <img src="{% static 'logo/logounuja.png' %}" alt="Logo" style="width: 80px; height: 80px;">
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="login-box-body text-center">
+                        <form action="" class="form-signin" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group has-feedback">
+                                <input type="text" name="username" id="username" class="form-control" placeholder="Username" required="" style="font-family: Calibri">
+                                <span class="fa fa-user form-control-feedback" autofocus></span>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="" style="font-family: Calibri">
+                                <span class="ion-android-lock form-control-feedback"></span>
+                            </div>
+                            <div class="form-group" style="text-align: right;">
+                                <button type="submit" class="btn btn-primary account-btn">Login</button>
+                                <input id="batal" type="button" value="Batal" class="btn btn-default btn-sm btn-flat" style="margin-right: 0px;font-family: Calibri" />
+                            </div>
+                            <div class="alert alert-danger" id="tampil_pesan" style="display: none;padding: 5px;margin-bottom: 0;"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

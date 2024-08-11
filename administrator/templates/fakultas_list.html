@@ -1,0 +1,97 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="form-check-inline">
+                                <a href="{% url 'create_fakultas' %}" class="btn btn-info"><i class="fa fa-plus-square"></i> Tambah</a>
+                            </div>
+                            <form action="{% url 'fakultas_list' %}" method="GET">
+                                <div class="input-group input-group-sm col-lg-12">
+                                    <input type="text" name="q" value="{{ request.GET.q }}" class="form-control float-right" placeholder="Cari Nama Fakultas">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="list_fakultasedit">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap table-sm text-xsmall" style="font-size: 12px;">
+                        <thead class="bg bg-success">
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>Kode Fakultas</th>
+                                <th>Nama Fakultas</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for fakultas in fakultas_list %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ fakultas.kode_fakultas }}</td>
+                                    <td>{{ fakultas.nama_fakultas }}</td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info" href="{% url 'update_fakultas' pk=fakultas.pk %}"><i class="nav-icon fas fa-edit"></i></a>
+                                        <a class="btn btn-xs btn-danger" href="{% url 'delete_fakultas' pk=fakultas.pk %}"><i class="nav-icon fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-body" style="text-align: center;">
+                    <ul class="pagination">
+                        {% if fakultas_list.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ fakultas_list.previous_page_number }}">Sebelumnya</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Sebelumnya</span>
+                            </li>
+                        {% endif %}
+                        {% for i in fakultas_list.paginator.page_range %}
+                            {% if fakultas_list.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ i }}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if fakultas_list.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ fakultas_list.next_page_number }}">Selanjutnya</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Selanjutnya</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
