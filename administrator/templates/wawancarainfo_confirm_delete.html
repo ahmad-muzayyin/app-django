@@ -1,0 +1,27 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+{% block content %}
+<div class="card" style="margin-bottom: 6px;">
+    <div class="body" style="padding: 15px 25px; margin-bottom: -10px;">
+        <div class="row clearfix">
+            <div class="col-md-12">
+                <div class="form-line" style="margin-bottom: 8px;">
+                    <h3>Konfirmasi Hapus Semester</h3>
+                    <p>Anda yakin ingin menghapus Info Wawancara"{{ calon_tanggal_wawancara.isi_wawancara }}"?</p>
+   
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-line" style="margin-bottom: 8px;">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <button  class="btn btn-xs btn-info" type="submit">Ya</button>
+                        <a  class="btn btn-xs btn-danger" href="{% url 'wawancara_list_informasi' %}">Tidak</a>
+                    </form>
+                </div>
+            </div>
+
+</div>
+</div>
+</div>
+{% endblock %}

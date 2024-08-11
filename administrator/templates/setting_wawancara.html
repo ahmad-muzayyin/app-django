@@ -1,0 +1,70 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h4>Setting Wawancara</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="form-check-inline">
+                                <a href="{% url 'add_wawancara' %}" class="btn btn-info"><i class="fa fa-plus-square"></i> Tambah</a>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+           
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap table-sm text-xsmall" style="font-size: 12px;">
+                        <thead class="bg bg-success">
+                            <tr>
+                                <th>Tanggal Wawancara</th>
+                                <th>Isi Wawancara</th>
+                                <th>Status Aktif</th>
+                                <th>Aksi</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for list_wawancara in list_wawancara %}
+                                <tr>
+                                    <td>{{ list_wawancara.tanggal_wawancara }}</td>
+                                    <td>{{ list_wawancara.isi_wawancara }}</td>
+                                    <td>{{ list_wawancara.status_aktif }}</td>
+                                    <td>  <a class="btn btn-xs btn-info" href="{% url 'wawancara_update' pk=list_wawancara.pk %}"><i class="nav-icon fas fa-edit"></i></a>
+                                        <a  class="btn btn-xs btn-danger" href="{% url 'infowawancara_delete' pk=list_wawancara.pk %}" ><i class="nav-icon fas fa-trash"></i></a> </td>
+                                    
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <div class="card-body" style="text-align: center;">
+               
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

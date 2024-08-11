@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h4>Data Calon Anggota Bem</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        {% for mhs in calon_list %}
+            <div class="col-md-12">
+                <div class="card bg-light mb-3">
+                    <div class="card-header bg-success">
+                        <h5 class="card-title text-white">{{ mhs.mahasiswa }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="card-text"><strong>Tanggal Daftar:</strong> {{ mhs.tanggal_daftar }}</p>
+                                <p class="card-text"><strong>IPK:</strong> {{ mhs.ipk }}</p>
+                                <p class="card-text"><strong>Jumlah Ekstrakurikuler:</strong> {{ mhs.jumlah_ekstrakurikuler }}</p>
+                                <p class="card-text"><strong>Lama Ekstrakurikuler:</strong> {{ mhs.lama_ekstrakurikuler }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="card-text"><strong>Keaktifan Kegiatan:</strong> {{ mhs.keaktifan_kegiatan }}</p>
+                                <p class="card-text"><strong>Pengalaman Kepemimpinan:</strong> {{ mhs.pengalaman_kepemimpinan }}</p>
+                                <p class="card-text"><strong>Prestasi Penghargaan:</strong> {{ mhs.prestasi_penghargaan }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light">
+                        <div class="row">
+                            <div class="col-md-6">
+                            <strong>Bukti:</strong>
+                            <ul>
+                                <li>
+                                    {% if mhs.bukti_ipk %}
+                                        <a href="#" data-toggle="modal" data-target="#documentModal" data-url="{{ mhs.bukti_ipk.url }}">Bukti IPK</a>
+                                    {% else %}
+                                        Tidak ada
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    {% if mhs.bukti_ekstrakurikuler %}
+                                        <a href="#" data-toggle="modal" data-target="#documentModal" data-url="{{ mhs.bukti_ekstrakurikuler.url }}">Bukti Ekstrakurikuler</a>
+                                    {% else %}
+                                        Tidak ada
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    {% if mhs.bukti_kegiatan_kampus %}
+                                        <a href="#" data-toggle="modal" data-target="#documentModal" data-url="{{ mhs.bukti_kegiatan_kampus.url }}">Bukti Kegiatan Kampus</a>
+                                    {% else %}
+                                        Tidak ada
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    {% if mhs.bukti_kepemimpinan %}
+                                        <a href="#" data-toggle="modal" data-target="#documentModal" data-url="{{ mhs.bukti_kepemimpinan.url }}">Bukti Kepemimpinan</a>
+                                    {% else %}
+                                        Tidak ada
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    {% if mhs.bukti_prestasi_penghargaan %}
+                                        <a href="#" data-toggle="modal" data-target="#documentModal" data-url="{{ mhs.bukti_prestasi_penghargaan.url }}">Bukti Prestasi Penghargaan</a>
+                                    {% else %}
+                                        Tidak ada
+                                    {% endif %}
+                                </li>
+                            </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="card-text"><strong>Status Seleksi:</strong></p>
+                                {% if mhs.publish_status == 'Ya' %}
+                                    {% if mhs.hasil_prediksi == 'Layak' %}
+                                        <h4 class="card-text" style="color: green; font-weight: bold;">Lulus Seleksi</h4>
+                                    {% else %}
+                                        <h4 class="card-text" style="color: red; font-weight: bold;">Tidak Lulus</h4>
+                                    {% endif %}
+                                {% else %}
+                                    <h4 class="card-text" style="color: orange; font-weight: bold;">Belum Terverifikasi</h4>
+                                {% endif %}
+                            </div>
+                            
+                        </div>
+                        <form action="{% url 'delete_calon' mhs.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Batal</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="documentModalLabel">Dokumen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="documentViewerImage" style="width: 100%; height: auto; display: none;">
+                <iframe id="documentViewer" style="width: 100%; height: 500px; display: none;" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include Bootstrap JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $('#documentModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var url = button.data('url');
+        var modal = $(this);
+
+        // Check if the URL ends with an image extension
+        if (url.match(/\.(jpeg|jpg|gif|png)$/i)) {
+            modal.find('#documentViewer').hide();
+            modal.find('#documentViewerImage').attr('src', url).show();
+        } else if (url.match(/\.(pdf)$/i)) {
+            window.open(url, '_blank');
+            modal.modal('hide');
+        } else {
+            modal.find('#documentViewerImage').hide();
+            modal.find('#documentViewer').attr('src', url).show();
+        }
+    });
+</script>
+
+{% endblock %}

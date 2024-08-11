@@ -1,0 +1,44 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h4>Tambah Semester</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="kode_semester" class="col-sm-2 col-form-label">Kode Semester</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="kode_semester" name="kode_semester" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="nama_semester" class="col-sm-2 col-form-label">Nama Semester</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nama_semester" name="nama_semester" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info">Simpan</button>
+                        <a href="{% url 'semester_list' %}" class="btn btn-secondary float-right">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

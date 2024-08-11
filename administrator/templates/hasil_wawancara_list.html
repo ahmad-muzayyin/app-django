@@ -1,0 +1,97 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="form-check-inline">
+                                <a href="{% url 'hasil_wawancara_create' %}" class="btn btn-info"><i class="fa fa-plus-square"></i> Tambah</a>
+                            </div>
+                            <form method="get">
+                                <input type="text" name="nama_mahasiswa" placeholder="Nama Mahasiswa" value="{{ nama_mahasiswa }}">
+                                <select name="semester">
+                                    <option value="">Semua Semester</option>
+                                    {% for semester in semesters %}
+                                    <option value="{{ semester.nama_semester }}" {% if semester.nama_semester == selected_semester %} selected {% endif %}>{{ semester.nama_semester }}</option>
+                                    {% endfor %}
+                                </select>
+                                <select name="program_studi">
+                                    <option value="">Semua Program Studi</option>
+                                    {% for program_studi in program_studis %}
+                                    <option value="{{ program_studi.nama_program_studi }}" {% if program_studi.nama_program_studi == selected_program_studi %} selected {% endif %}>{{ program_studi.nama_program_studi }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit">Cari</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" id="list_mahasiswa">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap table-sm text-xsmall" style="font-size: 12px;">
+                        <thead class="bg bg-success">
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>NIM</th>
+                                <th>Nama</th>
+                                
+                                <th>Semester</th>
+                                <th>Program Studi</th>
+                                <th>Nilai</th>
+                                <th>Status Wawancara</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for hasil in page_obj %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ hasil.mahasiswa.nim }}</td>
+                                    <td>{{ hasil.mahasiswa.nama }}</td>
+                                    <td>{{ hasil.mahasiswa.semester.nama_semester }}</td>
+                                    <td>{{ hasil.mahasiswa.program_studi.nama_program_studi }}</td>
+                                    <td>{{ hasil.nilai_wawancara }}</td>
+                                    <td>{{ hasil.status }}</td>
+                                    <td><a href="{% url 'hasil_wawancara_delete' hasil.pk %}">Hapus</a></td>
+
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-body" style="text-align: center;">
+                    <ul class="pagination">
+                        {% if page_obj.has_other_pages %}
+                        <div>
+                            {% if page_obj.has_previous %}
+                            <a href="?{{ page_obj.previous_page_number }}">Previous</a>
+                            {% endif %}
+                            <span>
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                            </span>
+                            {% if page_obj.has_next %}
+                            <a href="?{{ page_obj.next_page_number }}">Next</a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

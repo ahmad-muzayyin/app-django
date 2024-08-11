@@ -1,0 +1,67 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h4>Tambah Hasil Wawancara</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <label for="mahasiswa" class="col-sm-2 col-form-label">Mahasiswa (Mahasiswa Layak sebagai anggota)</label>
+                            <div class="col-sm-10">
+                                <select name="mahasiswa" id="mahasiswa" class="form-control">
+                                    <option value="">Pilih</option>
+                                    {% for mahasiswa in mahasiswa_list %}
+                                        <option value="{{ mahasiswa.id }}">{{ mahasiswa.nama }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="nilai_wawancara" class="col-sm-2 col-form-label">Nilai Wawancara</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="nilai_wawancara" name="nilai_wawancara" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="status" class="col-sm-2 col-form-label">Status</label>
+                            
+                            <div class="col-sm-10">
+                                <select name="status" id="status" class="form-control">
+                                  
+                                   
+                                      <option value="Lulus">Lulus</option>
+                                      <option value="Tidak Lulus">Tidak Lulus</option>
+                                    
+                                  
+
+                                  </select>
+                               
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info">Simpan</button>
+                        <a href="{% url 'hasil_wawancara_list' %}" class="btn btn-secondary float-right">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

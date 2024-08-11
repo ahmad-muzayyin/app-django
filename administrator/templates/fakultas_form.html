@@ -1,0 +1,12 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h2>{% if form.instance.pk %}Update Fakultas{% else %}Create Fakultas{% endif %}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+{% endblock %}

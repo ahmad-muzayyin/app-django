@@ -1,0 +1,13 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <h2>Delete Fakultas</h2>
+    <p>Are you sure you want to delete "{{ fakultas.nama_fakultas }}"?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, delete</button>
+        <a href="{% url 'fakultas_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

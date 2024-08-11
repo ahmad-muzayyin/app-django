@@ -1,0 +1,193 @@
+{% extends "baseadmin.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="row">
+                            <form action="{% url 'calonanggota_list' %}" method="GET">
+                                <div class="input-group input-group-sm col-lg-12">
+                                    <input type="text" name="q" value="{{ request.GET.q }}" class="form-control float-right" placeholder="Cari Nama Mahasiswa">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-secondary"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap table-sm text-xsmall" style="font-size: 12px;">
+                        <thead class="bg bg-success">
+                            <tr>
+                                <th style="width: 10px">#</th>
+                               
+                                <th>Mahasiswa</th>
+                                <th>Tanggal Daftar</th>
+                                <th>IPK</th>
+                                <th>Jumlah Ekstrakurikuler</th>
+                                <th>Lama Ekstrakurikuler</th>
+                                <th>Status Publish</th>
+                                <th>Hasil Prediksi</th>
+                                <th>Bukti IPK</th>
+                                <th>Bukti Ekstrakurikuler</th>
+                                <th>Bukti Kegiatan Kampus</th>
+                                <th>Bukti Kepemimpinan</th>
+                                <th>Bukti Prestasi Penghargaan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for calon in calon_list %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    
+                                    <td>{{ calon.mahasiswa.nama }}</td>
+                                    <td>{{ calon.tanggal_daftar }}</td>
+                                    <td>{{ calon.ipk }}</td>
+                                    <td>{{ calon.jumlah_ekstrakurikuler }}</td>
+                                    <td>{{ calon.lama_ekstrakurikuler }}</td>
+                                    <td>
+                                    {% if calon.publish_status == 'Tidak' %}
+                                        <a href="{% url 'update_publish_status' calon.id %}" class="btn btn-danger">Tidak</a>
+                                    {% else %}
+                                        <a href="{% url 'update_publish_status' calon.id %}" class="btn btn-success">Ya</a>
+                                    {% endif %}
+                                    </td>
+                                    <td>{{ calon.hasil_prediksi }}</td>
+                                   
+                                    <td>
+                                        {% if calon.bukti_ipk %}
+                                            <a href="#" data-toggle="modal" data-target="#documentModal" data-url="{{ calon.bukti_ipk.url }}">Lihat</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if calon.bukti_ekstrakurikuler %}
+                                            <a href="#" data-toggle="modal" data-target="#documentModal" data-url="{{ calon.bukti_ekstrakurikuler.url }}">Lihat</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if calon.bukti_kegiatan_kampus %}
+                                            <a href="#" data-toggle="modal" data-target="#documentModal" data-url="{{ calon.bukti_kegiatan_kampus.url }}">Lihat</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if calon.bukti_kepemimpinan %}
+                                            <a href="#" data-toggle="modal" data-target="#documentModal" data-url="{{ calon.bukti_kepemimpinan.url }}">Lihat</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if calon.bukti_prestasi_penghargaan %}
+                                            <a href="#" data-toggle="modal" data-target="#documentModal" data-url="{{ calon.bukti_prestasi_penghargaan.url }}">Lihat</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-body" style="text-align: center;">
+                    <ul class="pagination">
+                        {% if calon_list.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ calon_list.previous_page_number }}">Sebelumnya</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Sebelumnya</span>
+                            </li>
+                        {% endif %}
+                        {% for i in calon_list.paginator.page_range %}
+                            {% if calon_list.number == i %}
+                                <li class="page-item active">
+                                    <span class="page-link">{{ i }}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if calon_list.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ calon_list.next_page_number }}">Selanjutnya</a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">Selanjutnya</span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="documentModal" tabindex="-1" role="dialog" aria-labelledby="documentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="documentModalLabel">Dokumen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="documentViewerImage" style="width: 100%; height: auto; display: none;">
+                <iframe id="documentViewer" style="width: 100%; height: 500px; display: none;" frameborder="0"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include Bootstrap JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $('#documentModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var url = button.data('url');
+        var modal = $(this);
+
+        // Check if the URL ends with an image extension
+        if (url.match(/\.(jpeg|jpg|gif|png)$/i)) {
+            modal.find('#documentViewer').hide();
+            modal.find('#documentViewerImage').attr('src', url).show();
+        } else if (url.match(/\.(pdf)$/i)) {
+            window.open(url, '_blank');
+            modal.modal('hide');
+        } else {
+            modal.find('#documentViewerImage').hide();
+            modal.find('#documentViewer').attr('src', url).show();
+        }
+    });
+</script>
+{% endblock content %}

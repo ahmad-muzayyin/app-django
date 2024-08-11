@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>KNN</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/fonts/font-awesome/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/ionicons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/dist/css/AdminLTE.min.css' %}">
+    <style type="text/css">
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .login-box {
+            margin-top: 50px;
+        }
+
+        .panel {
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .small-box {
+            margin-bottom: 0;
+            border: none;
+        }
+
+        #h1 {
+            font-family: Calibri;
+            padding: 0;
+            margin: 15px 0 0;
+            font-size: 22px;
+            color: #333;
+        }
+
+        #h2 {
+            font-family: Calibri;
+            padding: 0;
+            margin: 0 0 15px;
+            font-size: 30px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-control {
+            border-radius: 3px;
+            border-color: #ccc;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-default {
+            background-color: #f4f6f9;
+            border-color: #ccc;
+            color: #333;
+        }
+
+        .btn-default:hover {
+            background-color: #e8ecef;
+            border-color: #adb5bd;
+            color: #333;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="panel panel-success">
+            <div class="small-box bg-primary">
+                <div class="inner">
+                    <h4 id="h1">App - <b>KNN</b></h4>
+                    <h6 id="h6">Aplikasi Pemilihan Anggota</h6>
+                </div>
+                <div class="icon">
+                    <img src="{% static 'logo/logounuja.png' %}" alt="Logo" style="width: 80px; height: 80px;">
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="login-box-body text-center">
+                        <form action="" class="form-signin" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group has-feedback">
+                                <input type="text" name="username" id="username" class="form-control" placeholder="Username" required="">
+                                <span class="fa fa-user form-control-feedback" autofocus></span>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <input type="password" name="password" id="password" class="form-control" placeholder="Password" required="">
+                                <span class="ion-android-lock form-control-feedback"></span>
+                            </div>
+                            <div class="form-group" style="text-align: right;">
+                                <button type="submit" class="btn btn-primary account-btn">Login</button>
+                                <input id="batal" type="button" value="Batal" class="btn btn-default btn-sm btn-flat" />
+                            </div>
+                            <div class="alert alert-danger" id="tampil_pesan" style="display: none;padding: 5px;margin-bottom: 0;"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

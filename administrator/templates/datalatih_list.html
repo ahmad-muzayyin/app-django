@@ -1,0 +1,67 @@
+{% extends "baseadmin.html" %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{% url 'import_datalatih' %}" class="btn btn-info"><i class="fa fa-plus-square"></i> Import Data Latih</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-12" id="list_programedit">
+            <form action="{% url 'delete_datalatih' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Hapus Semua Data</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body table-responsive p-0">
+                    <table class="table table-hover text-nowrap table-sm text-xsmall">
+                        <thead class="bg-success">
+                            <tr>
+                                <th>#</th>
+                                <th>IPK</th>
+                                <th>Jumlah Ekstrakurikuler</th>
+                                <th>Lama Ekstrakurikuler</th>
+                                <th>Keaktifan Kegiatan</th>
+                                <th>Pengalaman Keorganisasian</th>
+                                <th>Sertifikat Penghargaan</th>
+                                <th>Class</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in data_latih %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ data.ipk }}</td>
+                                <td>{{ data.jumlah_ekstrakurikuler }}</td>
+                                <td>{{ data.lama_ekstrakurikuler }}</td>
+                                <td>{{ data.keaktifan_kegiatan }}</td>
+                                <td>{{ data.pengalaman_kepemimpinan }}</td>
+                                <td>{{ data.prestasi_penghargaan }}</td>
+                                <td>{{ data.class_field }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
